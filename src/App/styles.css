@@ -1,0 +1,56 @@
+.app {
+    width: 100vw;
+    height: 100vh;
+}
+
+.planner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.toolbar {
+    width: 100%;
+}
+
+.toolbar > * {
+    margin: 5px;
+}
+
+table {
+    flex: 1;
+    table-layout: fixed;
+}
+
+td {
+    vertical-align: top;
+    max-width: 0;
+    max-height: 0;
+    flex: 1;
+}
+
+.day-content {
+    overflow-x: hidden;
+}
+
+.day-heading {
+    font-weight: bold;
+    text-align: center;
+}
+
+.day-heading.target {
+    text-decoration: underline;
+}
+
+.event-description {
+    font-size: 75%;
+}
+
+.complete {
+    text-decoration: line-through;
+}
+
+svg {
+    vertical-align: top;
+}
