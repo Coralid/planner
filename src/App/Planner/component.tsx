@@ -1,7 +1,9 @@
 import React from "react";
+import Event from "./Event/component";
+import PlannerData from "./interface";
+import EventData from "./Event/interface";
 
-
-function get(path: string) {
+function get(path: string): PlannerData {
     return {
         title: "My Planner",
         categories: {
@@ -38,7 +40,7 @@ function get(path: string) {
             }
         },
         syncTargetDomain: "https://nkcschools.instructure.com/api/v1/"
-    };
+    } as PlannerData;
 }
 
 class Planner extends React.Component<any, {
@@ -49,7 +51,7 @@ class Planner extends React.Component<any, {
     target: Date;
 }> {
 
-    planner: any;
+    planner: PlannerData;
 
     constructor(props: any) {
         super(props);
@@ -67,12 +69,15 @@ class Planner extends React.Component<any, {
         }
     }
 
-    index() {
-        let queue: {[key: string]: any} = {};
+    index(): {[key: string]: EventData[]} {
+        let queue: {[key: string]: EventData[]} = {};
         for (const eventId in this.planner.events) {
+            // @ts-ignore
             if (queue[this.planner.events[eventId][this.state.indexKey].substring(0, 10)] == null) {
+                // @ts-ignore
                 queue[this.planner.events[eventId][this.state.indexKey].substring(0, 10)] = [];
             }
+            // @ts-ignore
             queue[this.planner.events[eventId][this.state.indexKey].substring(0, 10)].push(this.planner.events[eventId]);
         }
         return queue;
@@ -134,34 +139,7 @@ class Planner extends React.Component<any, {
                                                         <div>
                                                             {
                                                                 (indexedEvents[date.toISOString().substring(0, 10)] ?? []).map((event: any) => {
-                                                                    return (
-                                                                        <div className="day-content" key={event.id}>
-                                                                            {event.title}
-                                                                            <br />
-                                                                            <span className="event-description">
-                                                                                ({event.points} points)
-                                                                                <br />
-                                                                                {event.description.substring(0, 100)}...
-                                                                                <br/>
-                                                                                Due By: {new Date(event.deadline).toLocaleDateString('en-US', {year: "numeric", month: "numeric", day: "numeric"})}
-                                                                                <br />
-                                                                                Created: {new Date(event.created).toLocaleDateString('en-US', {year: "numeric", month: "numeric", day: "numeric"})}
-                                                                                <br />
-                                                                                <ul>
-                                                                                    {
-                                                                                        event.subTasks.map((task: any) => {
-                                                                                            return (
-                                                                                                <li className={task.complete ? "complete" : ""}>
-                                                                                                    {task.description}
-                                                                                                </li>
-                                                                                            )
-                                                                                        })
-                                                                                    }
-                                                                                </ul>
-                                                                                <a href={this.planner.syncTargetDomain + this.planner.categories[event.category].syncTarget + event.syncTarget}>View Source</a>
-                                                                            </span>
-                                                                        </div>
-                                                                    );
+                                                                    return <Event src={event} planner={this.planner}/>;
                                                                 }) ?? undefined
                                                             }
                                                         </div>

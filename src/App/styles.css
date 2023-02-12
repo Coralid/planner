@@ -10,6 +10,10 @@
     flex-direction: column;
 }
 
+table {
+    height: 100%;
+}
+
 .toolbar {
     width: 100%;
 }
@@ -18,16 +22,10 @@
     margin: 5px;
 }
 
-table {
-    flex: 1;
-    table-layout: fixed;
-}
-
 td {
     vertical-align: top;
     max-width: 0;
     max-height: 0;
-    flex: 1;
 }
 
 .day-content {
